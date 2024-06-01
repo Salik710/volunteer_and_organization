@@ -2,18 +2,22 @@ import React, { useState } from 'react';
 import axiosInstance from '../axiosInstance';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 const CreateEvent = () => {
+  const userEmail = localStorage.getItem('userEmail');
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     date: '',
     time: '',
     location: '',
-    organizationEmail: localStorage.getItem('userEmail'),
+    organizationEmail: userEmail,
     durationHours: 0,
     durationMinutes: 0,
   });
+  const navigate = useNavigate();
 
   const [thumbnail, setThumbnail] = useState(null);
 
@@ -50,6 +54,8 @@ const CreateEvent = () => {
       const response = await axiosInstance.post('/event', eventFormData);
       console.log('Event created:', response.data);
       toast.success('Event created successfully!');
+      navigate(`/organization/${userEmail}`, { replace: true });
+
     } catch (error) {
       console.error('There was an error creating the event!', error);
       toast.error('Failed to create event');

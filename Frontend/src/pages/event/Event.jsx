@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../axiosInstance'; 
 import VolunteerCard from './VolunteerCard';
 import { toast } from 'react-toastify';
@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 const EventDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [event, setEvent] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [volunteers, setVolunteers] = useState([]);
@@ -66,13 +67,14 @@ const EventDetails = () => {
       toast.error('Failed to update event');
     }
   };
+  const userEmail = localStorage.getItem('userEmail');
 
   const handleDeleteEvent = async () => {
     if (window.confirm('Are you sure you want to delete this event?')) {
       try {
         await axiosInstance.delete(`/event/${id}`);
         toast.success('Event deleted successfully');
-        navigate('/');
+        navigate(`/organization/${userEmail}`, { replace: true });
       } catch (error) {
         console.error('Error deleting event:', error);
         toast.error('Failed to delete event');
