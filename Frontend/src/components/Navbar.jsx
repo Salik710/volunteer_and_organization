@@ -84,11 +84,9 @@ const Navbar = () => {
     };
 
     const handleAvatarClick = () => {
-        if (isDropdownOpen) {
-            setIsDropdownOpen(false); // Close the dropdown if it's already open
-        } else {
-            setIsDropdownOpen(true); // Open the dropdown if it's closed
-        }
+        if (!isDropdownOpen) {
+            setIsDropdownOpen(true); // Close the dropdown if it's already open
+        } 
     };
 
 
@@ -104,7 +102,7 @@ const Navbar = () => {
                 </button>
                 <div className="relative">
                     <img
-                        src="https://via.placeholder.com/40" // Replace with actual avatar URL or icon
+                        src="https://via.placeholder.com/40" // i will Replace it with actual avatar URL afe
                         alt="Avatar"
                         className="w-10 h-10 rounded-full cursor-pointer"
                         onClick={handleAvatarClick}
