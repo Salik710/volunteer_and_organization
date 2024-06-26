@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../../axiosInstance';
 import Profile from './organizationProfile';
-import EditProfileModal from '../volunteer/EditProfileModal';
+import EditProfileModal from './OrganizationProfilEditModal';
 import EventCard from '../volunteer/EventCard';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
 const Organization = () => {
   const { email } = useParams();
   const [organization, setOrganization] = useState(null);
@@ -15,6 +16,7 @@ const Organization = () => {
   const [editMode, setEditMode] = useState(false);
   const [formValues, setFormValues] = useState({
     name: '',
+    profileUrl: '',
     email: '',
     description: '',
     phone: '',
@@ -89,33 +91,32 @@ const Organization = () => {
 
   return (
     <div className="mx-auto p-6 bg-[#064439] shadow-lg rounded-lg">
-    <Profile organization={organization} onEdit={handleEditClick} />
-    {editMode && (
-      <EditProfileModal
-        formValues={formValues}
-        onChange={handleInputChange}
-        onSubmit={handleFormSubmit}
-        onCancel={handleCancelEdit}
-      />
-    )}
-    <div className="mt-8">
-      <div className="max-w-4xl mx-auto">
-      <h2 className="text-2xl merriweather-bold mb-4 text-white">My Events</h2>
-        {events.length === 0 ? (
-          <p className="text-white">No events found.</p>
-        ) : (
-          <div className="flex flex-col gap-5">
-            {events.map((event) => (
-              <Link to={`/event/${event._id}`} key={event._id} >
-              <EventCard event={event} userType = {'organization'}/>
-              </Link>
-            ))}
-          </div>
-        )}
+      <Profile organization={organization} onEdit={handleEditClick} />
+      {editMode && (
+        <EditProfileModal
+          formValues={formValues}
+          onChange={handleInputChange}
+          onSubmit={handleFormSubmit}
+          onCancel={handleCancelEdit}
+        />
+      )}
+      <div className="mt-8">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl merriweather-bold mb-4 text-white">My Events</h2>
+          {events.length === 0 ? (
+            <p className="text-white">No events found.</p>
+          ) : (
+            <div className="flex flex-col gap-5">
+              {events.map((event) => (
+                <Link to={`/event/${event._id}`} key={event._id}>
+                  <EventCard event={event} userType={'organization'} />
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
-  </div>
-  
   );
 };
 
